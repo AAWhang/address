@@ -27,7 +27,7 @@ AddressBook.prototype.findContact = function(id) {
 }
 
 AddressBook.prototype.deleteContact = function(id) {
-  for (var i=0; i< this.contacts.length; i++) {
+    for (var i=0; i< this.contacts.length; i++) {
     if (this.contacts[i]) {
       if (this.contacts[i].id == id) {
         delete this.contacts[i];
@@ -51,6 +51,17 @@ Contact.prototype.fullName = function() {
 
 var newAdd = new AddressBook();
 
+function addOutput (arrayNum) {
+  $("#contacts").empty();
+  $("#contacts").append(arrayNum + 1);
+  $("#contacts").append("<ul>");
+  $("#contacts").append("<li>" + newAdd.contacts[arrayNum].firstName + "</li>");
+  $("#contacts").append("<li>" + newAdd.contacts[arrayNum].lastName + "</li>");
+  $("#contacts").append("<li>" + newAdd.contacts[arrayNum].phoneNumber + "</li>");
+  $("#contacts").append("</ul>");
+}
+
+
 $(document).ready(function(){
   $("form#address-book").submit(function(event) {
     event.preventDefault();
@@ -61,27 +72,36 @@ $(document).ready(function(){
       var newCon = new Contact(userFN, userLN, userPN);
 
       newAdd.addContact(newCon);
-      $("#contacts").empty();
-      $("#contacts").append(newAdd.currentId);
       var prevID = newAdd.currentId - 1;
-      $("#contacts").append("<ul>");
-      $("#contacts").append("<li>" + newAdd.contacts[prevID].firstName + "</li>");
-      $("#contacts").append("<li>" + newAdd.contacts[prevID].lastName + "</li>");
-      $("#contacts").append("<li>" + newAdd.contacts[prevID].phoneNumber + "</li>");
-      $("#contacts").append("</ul>");
+      addOutput(prevID);
 
   });
 
 
   document.getElementById('search').onclick = function() {                //Alternate reverse button
   var beepVar = parseInt($("input#userID").val());                      //user input number
-  $("#contacts").empty();
-  $("#contacts").append(beepVar);
-  $("#contacts").append("<ul>");
-  $("#contacts").append("<li>" + newAdd.contacts[beepVar - 1].firstName + "</li>");
-  $("#contacts").append("<li>" + newAdd.contacts[beepVar - 1].lastName + "</li>");
-  $("#contacts").append("<li>" + newAdd.contacts[beepVar - 1].phoneNumber + "</li>");
-  $("#contacts").append("</ul>");
+  addOutput(beepVar - 1);
 }
+
+document.getElementById('delete').onclick = function() {                //Alternate reverse button
+var beepVar = parseInt($("input#userID").val());                      //user input number
+newAdd.deleteContact(beepVar);
+  $("#contacts").empty();
+}
+
+document.getElementById('overwrite').onclick = function() {                //Alternate reverse button
+var beepVar = parseInt($("input#userID").val());                      //user input number
+var arrayNum = beepVar - 1;
+newAdd.contacts[arrayNum].firstName = $("input#firstN").val();
+newAdd.contacts[arrayNum].lastName = $("input#lastN").val();
+newAdd.contacts[arrayNum].phoneNumber= $("input#phoneN").val();
+
+
+addOutput(beepVar - 1);
+}
+
+
+
+
 
 });
