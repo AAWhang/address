@@ -64,6 +64,24 @@ $(document).ready(function(){
       $("#contacts").empty();
       $("#contacts").append(newAdd.currentId);
       var prevID = newAdd.currentId - 1;
-      alert(newAdd.contacts[prevID].firstName);
+      $("#contacts").append("<ul>");
+      $("#contacts").append("<li>" + newAdd.contacts[prevID].firstName + "</li>");
+      $("#contacts").append("<li>" + newAdd.contacts[prevID].lastName + "</li>");
+      $("#contacts").append("<li>" + newAdd.contacts[prevID].phoneNumber + "</li>");
+      $("#contacts").append("</ul>");
+
   });
+
+
+  document.getElementById('search').onclick = function() {                //Alternate reverse button
+  var beepVar = parseInt($("input#userID").val());                      //user input number
+  $("#contacts").empty();
+  $("#contacts").append(beepVar);
+  $("#contacts").append("<ul>");
+  $("#contacts").append("<li>" + newAdd.contacts[beepVar - 1].firstName + "</li>");
+  $("#contacts").append("<li>" + newAdd.contacts[beepVar - 1].lastName + "</li>");
+  $("#contacts").append("<li>" + newAdd.contacts[beepVar - 1].phoneNumber + "</li>");
+  $("#contacts").append("</ul>");
+}
+
 });
